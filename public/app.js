@@ -21,6 +21,8 @@ class Bragdoc {
                 this.authorName = config.name;
                 const el = document.getElementById('author-name');
                 if (el) el.textContent = this.authorName;
+                const footer = document.getElementById('site-footer');
+                if (footer && config.version) footer.innerHTML = `<span class="footer-version">v${config.version}</span>`;
             }
         } catch (err) {
             console.error('Failed to load config:', err);

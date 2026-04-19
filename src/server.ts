@@ -1,17 +1,21 @@
 import express, { type Request, type Response } from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 
 import { loadAllBrags, loadBragByFilename } from './brags.js';
 import { env } from './config';
 import { BRAG_FILENAME_REGEX } from './const';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const require = createRequire(import.meta.url);
+const { version } = require('../package.json');
+
 const app = express();
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/api/config', (_req: Request, res: Response) => {
-    res.json({ name: env.AUTHOR_NAME });
+    res.json({ name: env.AUTHOR_NAME, version });
 });
 
 app.get('/api/doc', (_req: Request, res: Response) => {

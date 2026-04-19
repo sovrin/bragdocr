@@ -435,6 +435,27 @@ body {
     color: var(--text-muted);
 }
 
+/* ── Footer ── */
+
+.site-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+}
+
+.footer-version {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
 /* ── Animation ── */
 
 @keyframes reveal {
