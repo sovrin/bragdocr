@@ -19,10 +19,11 @@ function parseListItems(content: string): string {
     };
 
     for (const line of lines) {
-        const match = line.match(/^( *)- (.+)$/);
+        const match = line.match(/^([ \t]*)- (.+)$/);
 
         if (match) {
-            const depth = Math.floor(match[1].length / 4);
+            const indent = match[1].replace(/\t/g, '    ');
+            const depth = Math.floor(indent.length / 4);
             const text = match[2];
 
             if (currentDepth === -1) {
