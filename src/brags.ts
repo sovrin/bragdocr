@@ -3,34 +3,56 @@ import path from 'path';
 
 import type { BragDoc, DocMeta, Section } from './types';
 
-import { BRAG_FILENAME_REGEX } from './const';
 import { env } from './config';
+import { BRAG_FILENAME_REGEX } from './const';
 
 function parseListItems(content: string): string {
     const lines = content.split('\n');
-    let inList = false;
     const result: string[] = [];
+    let currentDepth = -1;
+
+    const closeToDepth = (targetDepth: number) => {
+        while (currentDepth > targetDepth) {
+            result.push('</li></ul>');
+            currentDepth--;
+        }
+    };
 
     for (const line of lines) {
-        const trimmed = line.trim();
-        if (trimmed.startsWith('- ')) {
-            if (!inList) {
+        const match = line.match(/^( *)- (.+)$/);
+
+        if (match) {
+            const depth = Math.floor(match[1].length / 2);
+            const text = match[2];
+
+            if (currentDepth === -1) {
                 result.push('<ul class="brag-list">');
-                inList = true;
+                currentDepth = 0;
+                result.push(`<li>${text}`);
+            } else if (depth > currentDepth) {
+                result.push('<ul class="brag-list">');
+                currentDepth = depth;
+                result.push(`<li>${text}`);
+            } else {
+                closeToDepth(depth);
+                result.push('</li>');
+                result.push(`<li>${text}`);
             }
-            result.push(`<li>${trimmed.slice(2)}</li>`);
         } else {
-            if (inList) {
+            if (currentDepth >= 0) {
+                result.push('</li>');
+                closeToDepth(0);
                 result.push('</ul>');
-                inList = false;
+                currentDepth = -1;
             }
-            if (trimmed) {
-                result.push(`<p>${trimmed}</p>`);
-            }
+            const trimmed = line.trim();
+            if (trimmed) result.push(`<p>${trimmed}</p>`);
         }
     }
 
-    if (inList) {
+    if (currentDepth >= 0) {
+        result.push('</li>');
+        closeToDepth(0);
         result.push('</ul>');
     }
 

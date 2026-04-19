@@ -318,6 +318,17 @@ body {
     margin-bottom: 0;
 }
 
+.brag-list .brag-list {
+    margin-top: 8px;
+}
+
+.brag-list .brag-list li::before {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    top: 10px;
+}
+
 .brag-link {
     color: var(--accent);
     text-decoration: none;
