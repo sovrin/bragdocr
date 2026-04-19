@@ -3,7 +3,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import { loadAllBrags, loadBragByFilename } from './brags.js';
-import { BRAG_FILENAME_REGEX, PORT } from './const';
+import { env } from './config';
+import { BRAG_FILENAME_REGEX } from './const';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -23,10 +24,9 @@ app.get('/api/doc', (_req: Request, res: Response) => {
 });
 
 app.get('/api/docs/full', (_req: Request, res: Response) => {
-    const bragsDir = path.join(__dirname, '../brags');
-    const docs = loadAllBrags(bragsDir);
+    const docs = loadAllBrags(env.BRAGS_FOLDER);
     const fullDocs = docs
-        .map((doc) => loadBragByFilename(bragsDir, doc.filename))
+        .map((doc) => loadBragByFilename(env.BRAGS_FOLDER, doc.filename))
         .filter(Boolean);
     res.json(fullDocs);
 });
@@ -55,7 +55,7 @@ app.get('/api/docs/:filename', (req: Request, res: Response) => {
     res.json(doc);
 });
 
-app.listen(PORT, () => {
-    console.log(`Bragdoc running at http://localhost:${PORT}`);
+app.listen(env.PORT, () => {
+    console.log(`Bragdoc running at http://localhost:${env.PORT}`);
     console.log(`Add markdown files to: ${path.join(__dirname, '../brags')}`);
 });
