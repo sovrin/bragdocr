@@ -22,7 +22,7 @@ function parseListItems(content: string): string {
         const match = line.match(/^( *)- (.+)$/);
 
         if (match) {
-            const depth = Math.floor(match[1].length / 2);
+            const depth = Math.floor(match[1].length / 4);
             const text = match[2];
 
             if (currentDepth === -1) {
