@@ -10,6 +10,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.use(express.static(path.join(__dirname, '../public')));
 
+app.get('/api/config', (_req: Request, res: Response) => {
+    res.json({ name: env.AUTHOR_NAME });
+});
+
 app.get('/api/doc', (_req: Request, res: Response) => {
     const docs = loadAllBrags(path.join(__dirname, '../brags'));
     if (docs.length === 0) {

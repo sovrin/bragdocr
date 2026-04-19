@@ -4,6 +4,7 @@ import path from 'path';
 import type { BragDoc, DocMeta, Section } from './types';
 
 import { BRAG_FILENAME_REGEX } from './const';
+import { env } from './config';
 
 function parseListItems(content: string): string {
     const lines = content.split('\n');
@@ -54,7 +55,7 @@ export function parseBragDoc(filepath: string): BragDoc | null {
 
     const raw = fs.readFileSync(filepath, 'utf-8');
 
-    const name = 'Oleg Kamlowski';
+    const name = env.AUTHOR_NAME;
     const roleMatch = raw.match(/\*\*Role:\*\*\s*(.+?)(?:\n|$)/);
     const periodMatch = raw.match(/\*\*Period:\*\*\s*(.+?)(?:\n|$)/);
 

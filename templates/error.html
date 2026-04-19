@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{.Title}} — Brag Doc</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fafaf9;
+      --accent: #c2410c;
+      --accent-light: rgba(194, 65, 12, 0.07);
+      --text-primary: #1c1917;
+      --text-secondary: #57534e;
+      --text-muted: #a8a29e;
+      --border: #e7e5e4;
+      --font-display: 'Newsreader', Georgia, serif;
+      --font-ui: 'Instrument Sans', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-display);
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      border-top: 3px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+    }
+
+    ::selection { background: var(--accent-light); color: var(--accent); }
+
+    .card {
+      width: 100%;
+      max-width: 400px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .status-code {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 8vw, 3rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .message {
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .back-link {
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease;
+    }
+
+    .back-link:hover {
+      border-bottom-color: var(--accent);
+    }
+
+    @keyframes reveal {
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <p class="eyebrow">Brag Doc</p>
+    <p class="status-code">{{.StatusCode}}</p>
+    <p class="title">{{.Title}}</p>
+    {{if .Message}}
+    <p class="message">{{.Message}}</p>
+    {{end}}
+    <a class="back-link" href="{{.ProxyPrefix}}/sign_in">← Back to sign in</a>
+  </div>
+</body>
+</html>

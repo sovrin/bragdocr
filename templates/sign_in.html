@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sign In</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+            :root {
+              --bg: #fafaf9;
+              --accent: #c2410c;
+              --accent-light: rgba(194, 65, 12, 0.07);
+              --text-primary: #1c1917;
+              --text-secondary: #57534e;
+              --text-muted: #a8a29e;
+              --border: #e7e5e4;
+              --border-strong: #d6d3d1;
+              --font-display: 'Newsreader', Georgia, serif;
+              --font-ui: 'Instrument Sans', system-ui, sans-serif;
+              --font-mono: 'DM Mono', monospace;
+            }
+
+            html { scroll-behavior: smooth; }
+
+            body {
+              font-family: var(--font-display);
+              background: var(--bg);
+              color: var(--text-primary);
+              min-height: 100vh;
+              -webkit-font-smoothing: antialiased;
+              border-top: 3px solid var(--accent);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 40px 24px;
+            }
+
+            ::selection { background: var(--accent-light); color: var(--accent); }
+
+            .card {
+              width: 100%;
+              max-width: 400px;
+              opacity: 0;
+              transform: translateY(20px);
+              animation: reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+
+            .eyebrow {
+              font-family: var(--font-mono);
+              font-size: 0.68rem;
+              font-weight: 400;
+              letter-spacing: 0.14em;
+              text-transform: uppercase;
+              color: var(--accent);
+              margin-bottom: 14px;
+            }
+
+            .tagline {
+              font-family: var(--font-ui);
+              font-size: 0.85rem;
+              color: var(--text-muted);
+              margin-top: 8px;
+              margin-bottom: 40px;
+              padding-bottom: 40px;
+              border-bottom: 1px solid var(--border);
+            }
+
+            {{if .SignInMessage}}
+            .message {
+              font-family: var(--font-ui);
+              font-size: 0.82rem;
+              color: var(--text-secondary);
+              background: var(--accent-light);
+              border: 1px solid rgba(194, 65, 12, 0.15);
+              border-radius: 4px;
+              padding: 10px 14px;
+              margin-bottom: 24px;
+            }
+            {{end}}
+
+            .sign-in-btn {
+              display: block;
+              width: 100%;
+              font-family: var(--font-ui);
+              font-size: 0.9rem;
+              font-weight: 600;
+              color: #fff;
+              background: var(--accent);
+              border: none;
+              border-radius: 5px;
+              padding: 13px 24px;
+              cursor: pointer;
+              letter-spacing: 0.01em;
+              transition: opacity 0.2s ease, transform 0.15s ease;
+            }
+
+            .sign-in-btn:hover {
+              opacity: 0.88;
+              transform: translateY(-1px);
+            }
+
+            .sign-in-btn:active {
+              transform: translateY(0);
+            }
+
+            .footer {
+              margin-top: 28px;
+              font-family: var(--font-mono);
+              font-size: 0.65rem;
+              color: var(--text-muted);
+              letter-spacing: 0.04em;
+              text-align: center;
+            }
+
+            @keyframes reveal {
+              to { opacity: 1; transform: translateY(0); }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <p class="eyebrow">Brag Doc</p>
+            <p class="tagline">Sign in to continue</p>
+
+            {{if .SignInMessage}}
+            <p class="message">{{.SignInMessage}}</p>
+            {{end}}
+
+            <form method="get" action="{{.ProxyPrefix}}/start">
+                <input type="hidden" name="rd" value="{{.Redirect}}" />
+                <button class="sign-in-btn" type="submit">Sign in</button>
+            </form>
+
+            {{if .Footer}}
+            <p class="footer">{{.Footer}}</p>
+            {{end}}
+        </div>
+    </body>
+</html>

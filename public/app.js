@@ -2,14 +2,29 @@ class Bragdoc {
     constructor() {
         this.docs = [];
         this.currentDoc = null;
+        this.authorName = '';
         this.page = 1;
         this.perPage = 10;
     }
 
     async init() {
-        await this.loadDocs();
+        await Promise.all([this.loadDocs(), this.loadConfig()]);
         this.handleRoute();
         window.addEventListener('hashchange', () => this.handleRoute());
+    }
+
+    async loadConfig() {
+        try {
+            const res = await fetch('/api/config');
+            if (res.ok) {
+                const config = await res.json();
+                this.authorName = config.name;
+                const el = document.getElementById('author-name');
+                if (el) el.textContent = this.authorName;
+            }
+        } catch (err) {
+            console.error('Failed to load config:', err);
+        }
     }
 
     async loadDocs() {
@@ -62,7 +77,7 @@ class Bragdoc {
         const metaEl = document.getElementById('meta');
         const sectionsEl = document.getElementById('sections');
 
-        document.title = 'Oleg Kamlowski — Brag Doc';
+        document.title = `${this.authorName} — Brag Doc`;
         metaEl.innerHTML = `<span class="doc-label">${this.docs.length} period${this.docs.length !== 1 ? 's' : ''}</span>`;
         sectionsEl.classList.remove('blog');
 
@@ -159,7 +174,7 @@ class Bragdoc {
         const sectionsEl = document.getElementById('sections');
 
         const periodLabel = this.formatPeriod(this.currentDoc.period);
-        document.title = `${periodLabel} — Oleg Kamlowski`;
+        document.title = `${periodLabel} — ${this.authorName}`;
         metaEl.innerHTML = `
       <span class="meta-period">${periodLabel}</span>
       ${this.currentDoc.role ? `<span class="meta-role">${this.currentDoc.role}</span>` : ''}
